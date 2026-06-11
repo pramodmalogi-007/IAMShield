@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IAMShield — Identity & Access Management Platform</title>
+  <meta name="description" content="Enterprise IAM Assessment Platform" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<!-- ╔══════════════════════════════════════════════════════╗ -->
+<!-- ║  NAVBAR                                              ║ -->
+<!-- ╚══════════════════════════════════════════════════════╝ -->
+<nav class="navbar">
+  <div class="nav-brand" id="nav-logo-btn">
+    <div class="nav-logo">🛡️</div>
+    <span class="nav-title">IAMShield</span>
+  </div>
+  <div class="nav-links">
+    <button class="nav-btn" id="nav-assess-btn" data-page="assessment-page">
+      🔍 <span class="label">Assess</span>
+    </button>
+    <button class="nav-btn" id="nav-prods-btn" data-page="products-page">
+      📦 <span class="label">Products</span>
+    </button>
+    <button class="nav-btn" id="nav-dash-btn" data-page="dashboard-page" style="display:none">
+      📊 <span class="label">Dashboard</span>
+    </button>
+    <span class="nav-btn" id="nav-user-name" style="display:none; color:var(--gold); cursor:default;"></span>
+    <button class="nav-btn" id="nav-login-btn">Login</button>
+    <button class="nav-btn accent" id="nav-signup-btn">Sign Up</button>
+    <button class="nav-btn btn-danger" id="nav-logout-btn" style="display:none">Logout</button>
+  </div>
+</nav>
+
+<!-- ╔══════════════════════════════════════════════════════╗ -->
+<!-- ║  HOME PAGE                                           ║ -->
+<!-- ╚══════════════════════════════════════════════════════╝ -->
+<div class="page active" id="home-page">
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div>
+      <div class="hero-badge">🛡️ Enterprise Identity Security</div>
+      <h1 class="hero-title">
+        Secure Every <span class="gradient-text">Identity</span><br>Across Your Enterprise
+      </h1>
+      <p class="hero-sub">
+        IAMShield's AI-driven assessment engine maps your security challenges to the
+        right IAM solutions — in minutes, not months.
+      </p>
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-lg" onclick="loadAssessmentPage()">
+          🔍 Start Free Assessment
+        </button>
+        <button class="btn btn-secondary btn-lg" onclick="goToProducts()">
+          Explore Products
+        </button>
+      </div>
+      <div class="hero-stats">
+        <div><span class="stat-val">10+</span><span class="stat-lbl">IAM Products</span></div>
+        <div><span class="stat-val">5</span><span class="stat-lbl">Security Domains</span></div>
+        <div><span class="stat-val">99.9%</span><span class="stat-lbl">Uptime SLA</span></div>
+        <div><span class="stat-val">500+</span><span class="stat-lbl">Enterprise Clients</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features-strip">
+    <div class="container">
+      <div class="sec-head">
+        <h2 class="sec-title gradient-text">Why IAMShield?</h2>
+        <p class="sec-sub">A complete platform for every identity security challenge.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🔐</div>
+          <div class="feature-name">Privileged Access</div>
+          <p class="feature-desc">Vault credentials, record sessions, enforce just-in-time access for your most critical accounts.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">👥</div>
+          <div class="feature-name">Workforce IAM</div>
+          <p class="feature-desc">SSO, MFA, and lifecycle automation for employees, contractors, and partners.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌐</div>
+          <div class="feature-name">Customer Identity</div>
+          <p class="feature-desc">Scalable CIAM with fraud detection, social login, and consent management at any scale.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📋</div>
+          <div class="feature-name">Access Governance</div>
+          <p class="feature-desc">Automate access reviews, enforce SoD, and generate audit-ready compliance reports.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <div class="feature-name">Network & API Security</div>
+          <p class="feature-desc">Zero Trust gateway and API protection for microservices and multi-cloud environments.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <div class="feature-name">AI Recommendations</div>
+          <p class="feature-desc">Smart assessment engine scores and ranks products based on your specific security profile.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ╔══════════════════════════════════════════════════════╗ -->
+<!-- ║  LOGIN PAGE (User)                                   ║ -->
+<!-- ╚══════════════════════════════════════════════════════╝ -->
+<div class="page" id="login-page">
+  <div class="auth-wrap">
+    <div class="auth-box fade-1">
+      <div class="text-center">
+        <div class="auth-logo">🛡️</div>
+        <h2 class="auth-title">Welcome Back</h2>
+        <p>Sign in to your IAMShield account</p>
+      </div>
+      <form id="login-form" class="mt-24">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input id="login-email" type="email" class="form-input" placeholder="admin@company.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="pass-wrap">
+            <input id="login-password" type="password" class="form-input" placeholder="••••••••" required />
+            <button type="button" class="pass-eye" onclick="togglePass('login-password',this)" tabindex="-1">👁</button>
+          </div>
+        </div>
+        <div class="form-error" id="login-error"></div>
+        <button type="submit" class="btn btn-primary btn-full btn-lg">Sign In →</button>
+      </form>
+      <div class="auth-footer">
+        Don't have an account? <a href="#" onclick="showPage('signup-page')">Create one free</a>
+      </div>
+      <div class="auth-footer" style="border-top:1px solid var(--border);padding-top:12px;margin-top:4px">
+        Are you an admin? <a href="#" onclick="showPage('admin-login-page')" style="color:var(--gold)">Admin Login →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════════════════╗ -->
+<!-- ║  ADMIN LOGIN PAGE                                    ║ -->
+<!-- ╚══════════════════════════════════════════════════════╝ -->
+<div class="page" id="admin-login-page">
+  <div class="auth-wrap">
+    <div class="auth-box fade-1" style="border-color:var(--gold);box-shadow:0 0 40px rgba(255,215,0,.15)">
+      <div class="text-center">
+        <div class="auth-logo">👑</div>
+        <h2 class="auth-title" style="color:var(--gold)">Admin Portal</h2>
+        <p>IAMShield Administration Access</p>
+      </div>
+      <form id="admin-login-form" class="mt-24">
+        <div class="form-group">
+          <label class="form-label">Admin Username</label>
+          <input id="admin-username" type="text" class="form-input" placeholder="admin" required autocomplete="off"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Admin Password</label>
+          <div class="pass-wrap">
+            <input id="admin-password" type="password" class="form-input" placeholder="••••••••" required />
+            <button type="button" class="pass-eye" onclick="togglePass('admin-password',this)" tabindex="-1">👁</button>
+          </div>
+        </div>
+        <div class="form-error" id="admin-login-error"></div>
+        <button type="submit" class="btn btn-full btn-lg" style="background:var(--gold);color:#000;font-weight:700;margin-top:8px">
+          👑 Enter Admin Panel
+        </button>
+      </form>
+      <div class="auth-footer">
+        <a href="#" onclick="showPage('login-page')">← Back to User Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════════════════╗ -->
+<!-- ║  SIGNUP PAGE                                         ║ -->
+<!-- ╚══════════════════════════════════════════════════════╝ -->
+<div class="page" id="signup-page">
+  <div class="auth-wrap">
+    <div class="auth-box fade-1" style="max-width:520px">
+      <div class="text-center">
+        <div class="auth-logo">🛡️</div>
+        <h2 class="auth-title">Create Account</h2>
+        <p>Register your organization on IAMShield</p>
+      </div>
+      <form id="signup-form" class="mt-24">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input id="reg-fname" type="text" class="form-input" placeholder="John" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input id="reg-lname" type="text" class="form-input" placeholder="Smith" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Organization Name</label>
+          <input id="reg-org" type="text" class="form-input" placeholder="Acme Corporation" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Work Email</label>
+          <input id="reg-email" type="email" class="form-input" placeholder="john@acme.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password <span class="text-muted">(8+ chars, uppercase & digit)</span></label>
+          <div class="pass-wrap">
+            <input id="reg-password" type="password" class="form-input" placeholder="••••••••" required />
+            <button type="button" class="pass-eye" onclick="togglePass('reg-password',this)" tabindex="-1">👁</button>
+          </div>
+        </div>
+        <div class="form-error" id="reg-error"></div>
+        <button type="submit" class="btn btn-primary btn-full btn-lg mt-8">Create Account →</button>
+      </form>
+      <div class="auth-footer">
+        Already have an account? <a href="#" onclick="showPage('login-page')">Sign in</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════════════════╗ -->
+<!-- ║  FORGOT PASSWORD PAGE                                ║ -->
+<!-- ╚══════════════════════════════════════════════════════╝ -->
+<div class="page" id="forgot-page">
+  <div class="auth-wrap">
+    <div class="auth-box fade-1">
+      <div class="text-center">
+        <div class="auth-logo">🔑</div>
+        <h2 class="auth-title">Reset Password</h2>
+        <p>Enter your email and we'll send a reset link.</p>
+      </div>
+      <form id="fp-form" class="mt-24">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input id="fp-email" type="email" class="form-input" placeholder="you@company.com" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-full mt-8">Send Reset Link</button>
+      </form>
+      <div class="auth-footer">
+        <a href="#" onclick="showPage('login-page')">← Back to Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════════════════╗ -->
+<!-- ║  ASSESSMENT PAGE (checkbox multi-select)            ║ -->
+<!-- ╚══════════════════════════════════════════════════════╝ -->
+<div class="page" id="assessment-page">
+  <div class="assess-page">
+    <div class="container">
+      <div id="assess-wrapper">
+        <!-- Dynamically rendered by JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════════════════╗ -->
+<!-- ║  PRODUCTS PAGE                                       ║ -->
+<!-- ╚══════════════════════════════════════════════════════╝ -->
+<div class="page" id="products-page">
+  <div class="prods-page">
+    <div class="container">
+      <div class="sec-head">
+        <h2 class="sec-title gradient-text">IAM Product Catalogue</h2>
+        <p class="sec-sub">Enterprise-grade security solutions for every identity challenge.</p>
+      </div>
+      <div class="prods-grid" id="products-grid">
+        <div class="empty-msg"><div class="spinner spinner-lg"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════════════════╗ -->
+<!-- ║  RECOMMENDATION PAGE                                 ║ -->
+<!-- ╚══════════════════════════════════════════════════════╝ -->
+<div class="page" id="recommendation-page">
+  <div class="prods-page">
+    <div class="container">
+      <div id="recommendation-wrapper"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════════════════╗ -->
+<!-- ║  DASHBOARD PAGE                                      ║ -->
+<!-- ╚══════════════════════════════════════════════════════╝ -->
+<div class="page" id="dashboard-page">
+  <div class="dash-page">
+    <div class="container">
+      <div class="sec-head">
+        <h2 class="sec-title gradient-text">Security Dashboard</h2>
+        <p class="sec-sub">Your IAM assessment history and recommendations.</p>
+      </div>
+      <div class="dash-stats fade-1">
+        <div class="dash-stat">
+          <div class="dash-stat-icon">🔍</div>
+          <div class="dash-stat-val" id="dash-assessments">0</div>
+          <div class="dash-stat-lbl">Assessments Run</div>
+        </div>
+      </div>
+      <div class="dash-grid fade-2">
+        <div>
+          <div class="dash-sec">
+            <h3>📊 Assessment History</h3>
+            <div id="dash-history">
+              <div class="empty-msg"><div class="ei">📊</div><p>No assessments yet</p></div>
+            </div>
+            <button class="btn btn-secondary btn-sm btn-full mt-16" onclick="loadAssessmentPage()">
+              + Run New Assessment
+            </button>
+          </div>
+        </div>
+        <div class="dash-sec">
+          <h3>💡 Recommended Products</h3>
+          <div id="dash-recommended">
+            <div class="empty-msg"><div class="ei">💡</div><p>Complete an assessment to see recommendations</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════════════════╗ -->
+<!-- ║  ADMIN DASHBOARD PAGE                                ║ -->
+<!-- ╚══════════════════════════════════════════════════════╝ -->
+<div class="page" id="admin-dashboard-page">
+  <div class="dash-page">
+    <div class="container">
+      <div class="sec-head" style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <h2 class="sec-title gradient-text" style="color:var(--gold)">👑 Admin Panel</h2>
+          <p class="sec-sub">IAMShield Administration — Manage users, products &amp; assessments.</p>
+        </div>
+        <button class="btn btn-outline btn-sm" id="admin-logout-btn" onclick="handleAdminLogout()">Logout</button>
+      </div>
+
+      <!-- Admin Tab Bar -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" onclick="switchAdminTab('overview',this)">📊 Overview</button>
+        <button class="admin-tab" onclick="switchAdminTab('users',this)">👥 Users</button>
+        <button class="admin-tab" onclick="switchAdminTab('assessments',this)">📋 Assessments</button>
+        <button class="admin-tab" onclick="switchAdminTab('products',this)">📦 Products</button>
+        <button class="admin-tab" onclick="switchAdminTab('questions',this)">❓ Questions</button>
+      </div>
+
+      <!-- Overview Tab -->
+      <div class="admin-tab-content active" id="admin-tab-overview">
+        <div class="dash-stats fade-1" id="admin-stats-row">
+          <div class="dash-stat"><div class="dash-stat-icon">👥</div><div class="dash-stat-val" id="stat-users">-</div><div class="dash-stat-lbl">Users</div></div>
+          <div class="dash-stat"><div class="dash-stat-icon">📋</div><div class="dash-stat-val" id="stat-assessments">-</div><div class="dash-stat-lbl">Assessments</div></div>
+          <div class="dash-stat"><div class="dash-stat-icon">📦</div><div class="dash-stat-val" id="stat-products">-</div><div class="dash-stat-lbl">Products</div></div>
+          <div class="dash-stat"><div class="dash-stat-icon">❓</div><div class="dash-stat-val" id="stat-questions">-</div><div class="dash-stat-lbl">Questions</div></div>
+        </div>
+      </div>
+
+      <!-- Users Tab -->
+      <div class="admin-tab-content" id="admin-tab-users">
+        <div class="dash-sec">
+          <h3>Registered Users</h3>
+          <div id="admin-users-list"><div class="spinner"></div></div>
+        </div>
+      </div>
+
+      <!-- Assessments Tab -->
+      <div class="admin-tab-content" id="admin-tab-assessments">
+        <div class="dash-sec">
+          <h3>All Assessments</h3>
+          <div id="admin-assessments-list"><div class="spinner"></div></div>
+        </div>
+      </div>
+
+      <!-- Products Tab -->
+      <div class="admin-tab-content" id="admin-tab-products">
+        <div class="dash-sec">
+          <h3>Products <button class="btn btn-primary btn-xs" onclick="toggleAddProductForm()" style="margin-left:12px">+ Add Product</button></h3>
+          <div id="add-product-form" style="display:none;background:var(--surface-2);padding:20px;border-radius:12px;margin:16px 0;border:1px solid var(--border)">
+            <h4 style="margin-bottom:16px;color:var(--gold)">New Product</h4>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">ID (slug)</label><input id="ap-id" class="form-input" placeholder="pam_starter"/></div>
+              <div class="form-group"><label class="form-label">Name</label><input id="ap-name" class="form-input" placeholder="PAM Starter"/></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Category</label>
+                <select id="ap-cat" class="form-input">
+                  <option value="privileged">Privileged Access</option>
+                  <option value="workforce">Workforce IAM</option>
+                  <option value="customer">Customer Identity</option>
+                  <option value="governance">Access Governance</option>
+                  <option value="network">Network & API Security</option>
+                  <option value="cloud">Cloud Security</option>
+                  <option value="zerotrust">Zero Trust Architecture</option>
+                  <option value="devops">DevOps & Secrets Mgmt</option>
+                </select>
+              </div>
+              </div>
+            <div class="form-group"><label class="form-label">Description</label><textarea id="ap-desc" class="form-input" rows="2" placeholder="Product description..."></textarea></div>
+            <div class="form-group"><label class="form-label">Features (comma separated)</label><input id="ap-features" class="form-input" placeholder="SSO, MFA, RBAC"/></div>
+            <button class="btn btn-primary btn-sm" onclick="submitAddProduct()">Add Product</button>
+            <button class="btn btn-outline btn-sm" onclick="toggleAddProductForm()" style="margin-left:8px">Cancel</button>
+          </div>
+          <div id="admin-products-list"><div class="spinner"></div></div>
+        </div>
+      </div>
+
+      <!-- Questions Tab -->
+      <div class="admin-tab-content" id="admin-tab-questions">
+        <div class="dash-sec">
+          <h3>Assessment Questions <button class="btn btn-primary btn-xs" onclick="toggleAddQuestionForm()" style="margin-left:12px">+ Add Question</button></h3>
+          <div id="add-question-form" style="display:none;background:var(--surface-2);padding:20px;border-radius:12px;margin:16px 0;border:1px solid var(--border)">
+            <h4 style="margin-bottom:16px;color:var(--gold)">New Question</h4>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Category</label>
+                <select id="aq-cat" class="form-input">
+                  <option value="privileged">Privileged Access</option>
+                  <option value="workforce">Workforce IAM</option>
+                  <option value="customer">Customer Identity</option>
+                  <option value="governance">Access Governance</option>
+                  <option value="network">Network & API Security</option>
+                  <option value="cloud">Cloud Security</option>
+                  <option value="zerotrust">Zero Trust Architecture</option>
+                  <option value="devops">DevOps & Secrets Mgmt</option>
+                </select>
+              </div>
+              <div class="form-group"><label class="form-label">Order</label><input id="aq-order" type="number" class="form-input" value="3"/></div>
+            </div>
+            <div class="form-group"><label class="form-label">Question Text</label><input id="aq-text" class="form-input" placeholder="Which users need protection?"/></div>
+            <div class="form-group">
+              <label class="form-label">Options (one per line: value|Label)</label>
+              <textarea id="aq-options" class="form-input" rows="4" placeholder="sysadmins|System Administrators&#10;dbadmins|Database Administrators"></textarea>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="submitAddQuestion()">Add Question</button>
+            <button class="btn btn-outline btn-sm" onclick="toggleAddQuestionForm()" style="margin-left:8px">Cancel</button>
+          </div>
+          <div id="admin-questions-list"><div class="spinner"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════════════════╗ -->
+<!-- ║  TOASTS & LOADING OVERLAY                           ║ -->
+<!-- ╚══════════════════════════════════════════════════════╝ -->
+<div class="toasts" id="toasts"></div>
+
+<div class="overlay-load" id="overlay-load" style="display:none">
+  <div class="spinner spinner-lg"></div>
+  <p id="overlay-msg">Loading…</p>
+</div>
+
+<!-- ╔══════════════════════════════════════════════════════╗ -->
+<!-- ║  LOGIN REQUIRED POPUP MODAL                         ║ -->
+<!-- ║  (shown when user clicks checkbox on product)       ║ -->
+<!-- ╚══════════════════════════════════════════════════════╝ -->
+<div id="login-required-modal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.92);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:24px">
+  <div style="background:#0f172a;border:1px solid var(--gold);border-radius:16px;max-width:440px;width:100%;padding:36px;text-align:center;position:relative;box-shadow:0 0 60px rgba(255,215,0,.2);isolation:isolate">
+    <button onclick="closeLoginRequiredModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text-muted);font-size:1.4rem;cursor:pointer">✕</button>
+    <div style="font-size:3.5rem;margin-bottom:12px">🔐</div>
+    <h2 style="margin-bottom:8px">Login Required</h2>
+    <p style="color:var(--text-muted);margin-bottom:24px">Please login to your account to access full product details and personalised recommendations.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="goLoginFromModal()">Login to Continue</button>
+      <button class="btn btn-outline" onclick="goSignupFromModal()">Create Free Account</button>
+    </div>
+    <p style="color:var(--text-muted);font-size:.82rem;margin-top:16px">Your assessment results are saved — login to view your full recommendation report.</p>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════════════════╗ -->
+<!-- ║  AUTH PROMPT MODAL (guest assessment banner)        ║ -->
+<!-- ╚══════════════════════════════════════════════════════╝ -->
+<div id="auth-prompt-modal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.92);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:24px">
+  <div style="background:#0f172a;border:1px solid var(--border);border-radius:16px;max-width:480px;width:100%;padding:36px;text-align:center;position:relative;isolation:isolate">
+    <button onclick="closeAuthPrompt()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text-muted);font-size:1.4rem;cursor:pointer">✕</button>
+    <div style="font-size:3rem;margin-bottom:16px">🛡️</div>
+    <h2 style="margin-bottom:8px">Save Your Results</h2>
+    <p style="color:var(--text-muted);margin-bottom:24px">Create a free account or log in to save your assessment results and view your full recommendation report.</p>
+    <div style="display:flex;gap:12px;justify-content:center">
+      <button class="btn btn-primary" onclick="goSignupFromPrompt()">Sign Up Free</button>
+      <button class="btn btn-outline" onclick="goLoginFromPrompt()">Log In</button>
+    </div>
+    <p style="color:var(--text-muted);font-size:.85rem;margin-top:16px">Your results are shown above — login to save them permanently.</p>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════════════════╗ -->
+<!-- ║  ASSESSMENT DETAIL MODAL                            ║ -->
+<!-- ╚══════════════════════════════════════════════════════╝ -->
+<div id="detail-modal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.92);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:24px">
+  <div style="background:#0f172a;border:1px solid var(--border);border-radius:16px;max-width:560px;width:100%;padding:32px;position:relative;max-height:80vh;overflow-y:auto;isolation:isolate">
+    <button onclick="closeDetailModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text-muted);font-size:1.4rem;cursor:pointer">✕</button>
+    <div id="detail-modal-body"></div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

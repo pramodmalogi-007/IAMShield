@@ -14,9 +14,10 @@ def _score_products(db, category, answers):
     """
     answers = { "1": ["val1","val2"], "2": ["val3"] }
     Flatten all selected values, then score products.
+    Tiebreaker: number of directly matched feature weights, then feature count.
+    Each product also gets a rank_reason explaining why it placed where it did.
     """
     products = list(db.products.find({"category": category}))
-    # Flatten: answers is dict of { qIdx: [values] }
     all_selected = []
     for vals in answers.values():
         if isinstance(vals, list):
@@ -26,20 +27,54 @@ def _score_products(db, category, answers):
 
     scored = []
     for p in products:
-        weights   = p.get("score_weights", {})
-        raw_score = sum(weights.get(v, 0) for v in all_selected)
-        max_score = sum(weights.values()) or 1
-        norm      = min(round((raw_score / max_score) * 100), 100)
+        weights      = p.get("score_weights", {})
+        raw_score    = sum(weights.get(v, 0) for v in all_selected)
+        max_score    = sum(weights.values()) or 1
+        norm         = min(round((raw_score / max_score) * 100), 100)
+        matched_keys = [v for v in all_selected if v in weights]
         scored.append({
-            "id":          p["id"],
-            "name":        p["name"],
-            "category":    p["category"],
-            "price":       p["price"],
-            "description": p["description"],
-            "features":    p.get("features", []),
-            "score":       norm,
+            "id":            p["id"],
+            "name":          p["name"],
+            "category":      p["category"],
+            "price":         p.get("price", 0),
+            "description":   p["description"],
+            "features":      p.get("features", []),
+            "score":         norm,
+            "_matched_keys": matched_keys,
+            "_feat_count":   len(p.get("features", [])),
         })
-    scored.sort(key=lambda x: x["score"], reverse=True)
+
+    # Sort: score desc → matched_keys count desc → feature count desc → name asc
+    scored.sort(key=lambda x: (
+        -x["score"],
+        -len(x["_matched_keys"]),
+        -x["_feat_count"],
+        x["name"]
+    ))
+
+    # Assign rank and build a reason sentence
+    rank_labels = ["1st", "2nd", "3rd", "4th", "5th"]
+    for i, p in enumerate(scored):
+        label = rank_labels[i] if i < len(rank_labels) else f"{i+1}th"
+        matched = p["_matched_keys"]
+        if p["score"] == 100:
+            reason = (f"Ranked {label} — perfect match. "
+                      f"Every requirement you selected aligns with this product's core strengths "
+                      f"({len(matched)} of your {len(all_selected)} selections directly matched).")
+        elif p["score"] >= 70:
+            reason = (f"Ranked {label} — strong match ({p['score']}%). "
+                      f"{len(matched)} of your {len(all_selected)} selections matched this product's capabilities.")
+        elif p["score"] >= 40:
+            reason = (f"Ranked {label} — partial match ({p['score']}%). "
+                      f"Covers {len(matched)} of your requirements but may need supplementing.")
+        else:
+            reason = (f"Ranked {label} — low match ({p['score']}%). "
+                      f"Only {len(matched)} of your selections align with this product.")
+        p["rank_reason"] = reason
+        # Clean up internal fields
+        del p["_matched_keys"]
+        del p["_feat_count"]
+
     return scored
 
 

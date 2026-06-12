@@ -42,7 +42,7 @@
   <section class="hero">
     <div class="hero-glow"></div>
     <div>
-      <div class="hero-badge">🛡️ Enterprise Identity Security</div>
+      <div class="hero-badge">Enterprise Identity Security</div>
       <h1 class="hero-title">
         Secure Every <span class="gradient-text">Identity</span><br>Across Your Enterprise
       </h1>
@@ -75,32 +75,26 @@
       </div>
       <div class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon">🔐</div>
           <div class="feature-name">Privileged Access</div>
           <p class="feature-desc">Vault credentials, record sessions, enforce just-in-time access for your most critical accounts.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">👥</div>
           <div class="feature-name">Workforce IAM</div>
           <p class="feature-desc">SSO, MFA, and lifecycle automation for employees, contractors, and partners.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🌐</div>
           <div class="feature-name">Customer Identity</div>
           <p class="feature-desc">Scalable CIAM with fraud detection, social login, and consent management at any scale.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">📋</div>
           <div class="feature-name">Access Governance</div>
           <p class="feature-desc">Automate access reviews, enforce SoD, and generate audit-ready compliance reports.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🔒</div>
           <div class="feature-name">Network & API Security</div>
           <p class="feature-desc">Zero Trust gateway and API protection for microservices and multi-cloud environments.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🤖</div>
           <div class="feature-name">AI Recommendations</div>
           <p class="feature-desc">Smart assessment engine scores and ranks products based on your specific security profile.</p>
         </div>
@@ -116,7 +110,6 @@
   <div class="auth-wrap">
     <div class="auth-box fade-1">
       <div class="text-center">
-        <div class="auth-logo">🛡️</div>
         <h2 class="auth-title">Welcome Back</h2>
         <p>Sign in to your IAMShield account</p>
       </div>
@@ -152,7 +145,6 @@
   <div class="auth-wrap">
     <div class="auth-box fade-1" style="border-color:var(--gold);box-shadow:0 0 40px rgba(255,215,0,.15)">
       <div class="text-center">
-        <div class="auth-logo">👑</div>
         <h2 class="auth-title" style="color:var(--gold)">Admin Portal</h2>
         <p>IAMShield Administration Access</p>
       </div>
@@ -187,7 +179,6 @@
   <div class="auth-wrap">
     <div class="auth-box fade-1" style="max-width:520px">
       <div class="text-center">
-        <div class="auth-logo">🛡️</div>
         <h2 class="auth-title">Create Account</h2>
         <p>Register your organization on IAMShield</p>
       </div>
@@ -234,7 +225,6 @@
   <div class="auth-wrap">
     <div class="auth-box fade-1">
       <div class="text-center">
-        <div class="auth-logo">🔑</div>
         <h2 class="auth-title">Reset Password</h2>
         <p>Enter your email and we'll send a reset link.</p>
       </div>
@@ -305,7 +295,7 @@
       </div>
       <div class="dash-stats fade-1">
         <div class="dash-stat">
-          <div class="dash-stat-icon">🔍</div>
+          
           <div class="dash-stat-val" id="dash-assessments">0</div>
           <div class="dash-stat-lbl">Assessments Run</div>
         </div>
@@ -350,8 +340,8 @@
       <!-- Admin Tab Bar -->
       <div class="admin-tabs">
         <button class="admin-tab active" onclick="switchAdminTab('overview',this)">📊 Overview</button>
-        <button class="admin-tab" onclick="switchAdminTab('users',this)">👥 Users</button>
-        <button class="admin-tab" onclick="switchAdminTab('assessments',this)">📋 Assessments</button>
+        <button class="admin-tab" onclick="switchAdminTab('users',this)">Users</button>
+        <button class="admin-tab" onclick="switchAdminTab('assessments',this)">Assessments</button>
         <button class="admin-tab" onclick="switchAdminTab('products',this)">📦 Products</button>
         <button class="admin-tab" onclick="switchAdminTab('questions',this)">❓ Questions</button>
       </div>
@@ -359,10 +349,10 @@
       <!-- Overview Tab -->
       <div class="admin-tab-content active" id="admin-tab-overview">
         <div class="dash-stats fade-1" id="admin-stats-row">
-          <div class="dash-stat"><div class="dash-stat-icon">👥</div><div class="dash-stat-val" id="stat-users">-</div><div class="dash-stat-lbl">Users</div></div>
-          <div class="dash-stat"><div class="dash-stat-icon">📋</div><div class="dash-stat-val" id="stat-assessments">-</div><div class="dash-stat-lbl">Assessments</div></div>
-          <div class="dash-stat"><div class="dash-stat-icon">📦</div><div class="dash-stat-val" id="stat-products">-</div><div class="dash-stat-lbl">Products</div></div>
-          <div class="dash-stat"><div class="dash-stat-icon">❓</div><div class="dash-stat-val" id="stat-questions">-</div><div class="dash-stat-lbl">Questions</div></div>
+          <div class="dash-stat"><div class="dash-stat-val" id="stat-users">-</div><div class="dash-stat-lbl">Users</div></div>
+          <div class="dash-stat"><div class="dash-stat-val" id="stat-assessments">-</div><div class="dash-stat-lbl">Assessments</div></div>
+          <div class="dash-stat"><div class="dash-stat-val" id="stat-products">-</div><div class="dash-stat-lbl">Products</div></div>
+          <div class="dash-stat"><div class="dash-stat-val" id="stat-questions">-</div><div class="dash-stat-lbl">Questions</div></div>
         </div>
       </div>
 
@@ -471,7 +461,6 @@
 <div id="login-required-modal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.92);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:24px">
   <div style="background:#0f172a;border:1px solid var(--gold);border-radius:16px;max-width:440px;width:100%;padding:36px;text-align:center;position:relative;box-shadow:0 0 60px rgba(255,215,0,.2);isolation:isolate">
     <button onclick="closeLoginRequiredModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text-muted);font-size:1.4rem;cursor:pointer">✕</button>
-    <div style="font-size:3.5rem;margin-bottom:12px">🔐</div>
     <h2 style="margin-bottom:8px">Login Required</h2>
     <p style="color:var(--text-muted);margin-bottom:24px">Please login to your account to access full product details and personalised recommendations.</p>
     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
@@ -488,7 +477,6 @@
 <div id="auth-prompt-modal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.92);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:24px">
   <div style="background:#0f172a;border:1px solid var(--border);border-radius:16px;max-width:480px;width:100%;padding:36px;text-align:center;position:relative;isolation:isolate">
     <button onclick="closeAuthPrompt()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text-muted);font-size:1.4rem;cursor:pointer">✕</button>
-    <div style="font-size:3rem;margin-bottom:16px">🛡️</div>
     <h2 style="margin-bottom:8px">Save Your Results</h2>
     <p style="color:var(--text-muted);margin-bottom:24px">Create a free account or log in to save your assessment results and view your full recommendation report.</p>
     <div style="display:flex;gap:12px;justify-content:center">
@@ -504,7 +492,6 @@
 <!-- ╚══════════════════════════════════════════════════════╝ -->
 <div id="detail-modal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.92);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:24px">
   <div style="background:#0f172a;border:1px solid var(--border);border-radius:16px;max-width:560px;width:100%;padding:32px;position:relative;max-height:80vh;overflow-y:auto;isolation:isolate">
-    <button onclick="closeDetailModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text-muted);font-size:1.4rem;cursor:pointer">✕</button>
     <div id="detail-modal-body"></div>
   </div>
 </div>

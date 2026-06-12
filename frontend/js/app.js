@@ -396,7 +396,7 @@ function renderAssessPage(pageNum) {
       <span style="color:var(--text-muted);font-size:.88rem">${pageNum} of ${totalPages}</span>
       ${pageNum < totalPages
         ? `<button class="btn btn-primary" onclick="renderAssessPage(${pageNum + 1})">Next →</button>`
-        : `<button class="btn btn-primary btn-lg" id="submit-assessment-btn" onclick="submitCheckboxAssessment()">🎯 Get My Recommendations →</button>`
+        : `<button class="btn btn-primary btn-lg" id="submit-assessment-btn" onclick="submitCheckboxAssessment()">Get My Recommendations →</button>`
       }
     </div>`;
 }
@@ -498,11 +498,10 @@ function showRecommendationPage(res) {
     // Build selected product details section — collapsed by default, toggle per product
     const prodDetailsHTML = topProducts.length > 0 ? `
         <div class="rec-summary-block fade-2">
-          <h3 style="color:var(--gold);margin-bottom:16px">📦 Matched Products</h3>
+          <h3 style="color:var(--gold);margin-bottom:16px">Matched Products</h3>
           <div class="prod-details-list">
             ${topProducts.map((p, i) => {
-                const medals = ['🥇','🥈','🥉'];
-                const medal  = medals[i] || `#${i+1}`;
+                const medal = `#${i+1}`;
                 const uid    = 'pd_' + i;
                 return `
                 <div class="prod-detail-card" id="${uid}_card">
@@ -516,6 +515,7 @@ function showRecommendationPage(res) {
                       onclick="toggleProdDetail('${uid}')">View Details ▾</button>
                   </div>
                   <div class="prod-detail-body" id="${uid}_body" style="display:none">
+                    ${p.rank_reason ? `<div class="rank-reason">${p.rank_reason}</div>` : ''}
                     <p class="prod-detail-desc">${p.description || ''}</p>
                     ${(p.features && p.features.length) ? `
                     <div class="prod-detail-features-title">Key Features</div>
@@ -530,7 +530,7 @@ function showRecommendationPage(res) {
 
     wrapper.innerHTML = `
     <div class="assess-head fade-1" style="text-align:center;padding-bottom:0">
-      <div class="tag-gold mb-16" style="display:inline-block">Assessment Complete ✅</div>
+      <div class="tag-gold mb-16" style="display:inline-block">Assessment Complete</div>
       <h2 style="font-size:2rem">Your Personalised IAM Recommendations</h2>
       <p class="mt-8" style="font-size:1.05rem">
         Based on your <strong>${CAT_LABELS[catKey] || catKey}</strong> profile
@@ -544,7 +544,7 @@ function showRecommendationPage(res) {
     ${prodDetailsHTML}
 
     <div class="rec-products-section fade-3">
-      <h3 style="color:var(--gold);margin-bottom:4px">🎯 Recommended Products (${topProducts.length})</h3>
+      <h3 style="color:var(--gold);margin-bottom:4px">Recommended Products (${topProducts.length})</h3>
       <p style="color:var(--text-muted);margin-bottom:20px;font-size:.9rem">
         Products are ranked by how well they match your selected requirements.
       </p>
@@ -557,18 +557,17 @@ function showRecommendationPage(res) {
     <div class="text-center mt-32 fade-3" style="padding-bottom:48px">
       <button class="btn btn-outline" onclick="loadAssessmentPage()">← New Assessment</button>
       <button class="btn btn-secondary" onclick="goToProducts()" style="margin-left:12px">View All Products</button>
-      ${isLoggedIn() ? `<button class="btn btn-primary" onclick="loadDashboard()" style="margin-left:12px">📊 Dashboard</button>` : ''}
+      ${isLoggedIn() ? `<button class="btn btn-primary" onclick="loadDashboard()" style="margin-left:12px">Dashboard</button>` : ''}
     </div>`;
 
 }
 
 function renderRecProductCard(p, rank) {
-    const medals = ['🥇', '🥈', '🥉'];
-    const medal  = medals[rank] || `#${rank + 1}`;
+    const medal = `#${rank + 1}`;
     const score  = p.score !== undefined ? p.score : 0;
     return `
     <div class="prod-card fade-1" style="position:relative;${rank === 0 ? 'border-color:var(--gold);box-shadow:0 0 24px rgba(255,215,0,.18)' : ''}">
-      <div style="position:absolute;top:12px;left:12px;font-size:1.4rem" title="Rank ${rank+1}">${medal}</div>
+      <div class="rank-badge" title="Rank ${rank+1}">${medal}</div>
       <div class="score-pill" style="right:12px;top:12px;left:auto">Match: ${score}%</div>
       <div class="prod-cat" style="margin-top:28px">${p.category}</div>
       <div class="prod-name">${p.name}</div>
@@ -579,7 +578,7 @@ function renderRecProductCard(p, rank) {
         <div class="score-bar"><div class="score-bar-fill" style="width:${score}%"></div></div>
       </div>
       <div class="mt-8" style="font-size:.82rem;color:var(--text-muted);text-align:center;padding:8px;background:rgba(0,191,255,.05);border-radius:8px">
-        📞 Contact our sales team for a demo and pricing
+        Contact our sales team for a demo and pricing
       </div>
     </div>`;
 }
@@ -699,11 +698,10 @@ function showAssessmentDetail(a) {
       <p class="hist-date" style="margin-bottom:20px">
         ${new Date(a.createdAt).toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
       </p>
-      <h4 style="color:var(--gold);margin-bottom:12px">🎯 Recommended Products (${prods.length})</h4>
+      <h4 style="color:var(--gold);margin-bottom:12px">Recommended Products (${prods.length})</h4>
       <div class="detail-prods">
         ${prods.map((p, i) => {
-            const medals = ['🥇','🥈','🥉'];
-            const medal  = medals[i] || '';
+            const medal = `#${i+1}`;
             const uid    = 'dm_' + i;
             return `
           <div class="detail-prod-row" id="${uid}_row">
@@ -720,6 +718,7 @@ function showAssessmentDetail(a) {
               </div>
             </div>
             <div class="detail-prod-body" id="${uid}_body" style="display:none">
+              ${p.rank_reason ? `<div class="rank-reason">${p.rank_reason}</div>` : ''}
               ${p.description ? `<p class="prod-detail-desc" style="margin:10px 0 10px">${p.description}</p>` : ''}
               ${(p.features && p.features.length) ? `
               <div class="prod-detail-features-title">Key Features</div>

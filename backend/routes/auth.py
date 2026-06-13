@@ -12,7 +12,16 @@ from datetime import datetime
 
 auth_bp = Blueprint("auth", __name__)
 
-def valid_email(e):    return re.match(r'^[^\@\s]+@[^\@\s]+\.[^\@\s]+$', e) is not None
+def valid_email(e):
+    """
+    Strict email validation:
+    - local part: 1+ chars before @
+    - domain: 2+ chars before the dot  (rejects 'x@y.com' style single-char domains)
+    - TLD: 2–6 letters only  (rejects numbers-only TLDs, too-short endings)
+    - no spaces anywhere
+    """
+    pattern = r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9\-]{2,}\.[a-zA-Z]{2,6}$'
+    return re.match(pattern, e.strip()) is not None
 def valid_password(p): return len(p) >= 8 and any(c.isupper() for c in p) and any(c.isdigit() for c in p)
 
 @auth_bp.route("/register", methods=["POST"])
